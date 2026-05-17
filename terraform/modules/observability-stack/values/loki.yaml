@@ -1,0 +1,64 @@
+# Default values for Loki
+# https://github.com/grafana/helm-charts/tree/main/charts/loki
+
+loki:
+  commonConfig:
+    replication_factor: 1
+  storage:
+    type: filesystem
+  schemaConfig:
+    configs:
+      - from: "2024-01-01"
+        store: tsdb
+        index:
+          prefix: loki_index_
+          period: 24h
+        object_store: filesystem
+        schema: v13
+  compactor:
+    working_directory: /var/loki/compactor
+  ingester:
+    chunk_encoding: snappy
+  querier:
+    max_concurrent: 4
+  pattern_ingester:
+    enabled: true
+
+gateway:
+  enabled: true
+  nginxConfig:
+    customBackendUrl: http://loki:3100
+
+deploymentMode: SingleBinary
+
+persistence:
+  enabled: true
+  storageClassName: ""
+  size: 10Gi
+
+monitoring:
+  dashboards:
+    enabled: false
+  rules:
+    enabled: false
+  alerts:
+    enabled: false
+  serviceMonitor:
+    enabled: false
+  selfMonitoring:
+    enabled: false
+    grafanaAgent:
+      installOperator: false
+  lokiCanary:
+    enabled: false
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 200m
+  limits:
+    memory: 1Gi
+    cpu: 500m
+
+singleBinary:
+  replicas: 1

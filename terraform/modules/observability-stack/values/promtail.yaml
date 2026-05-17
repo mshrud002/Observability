@@ -1,0 +1,14 @@
+# Default values for Promtail
+# https://github.com/grafana/helm-charts/tree/main/charts/promtail
+
+config:
+  clients:
+    - url: http://loki-gateway.observability.svc.cluster.local:80/loki/api/v1/push
+
+resources:
+  requests:
+    memory: 128Mi
+    cpu: 100m
+  limits:
+    memory: 256Mi
+    cpu: 200m

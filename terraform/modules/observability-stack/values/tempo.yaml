@@ -1,0 +1,38 @@
+# Default values for Tempo
+# https://github.com/grafana/helm-charts/tree/main/charts/tempo
+
+tempo:
+  receivers:
+    otlp:
+      protocols:
+        grpc:
+          endpoint: 0.0.0.0:4317
+        http:
+          endpoint: 0.0.0.0:4318
+  storage:
+    trace:
+      backend: local
+      local:
+        path: /var/tempo/traces
+      wal:
+        path: /var/tempo/wal
+  queries:
+    enabled: true
+  metricsGenerator:
+    enabled: false
+
+persistence:
+  enabled: true
+  storageClassName: ""
+  size: 10Gi
+
+resources:
+  requests:
+    memory: 512Mi
+    cpu: 200m
+  limits:
+    memory: 1Gi
+    cpu: 500m
+
+serviceAccount:
+  create: true
